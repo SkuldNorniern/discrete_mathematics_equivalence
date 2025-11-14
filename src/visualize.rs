@@ -1,5 +1,4 @@
 /// 관계 행렬을 텍스트 기반으로 시각화하는 모듈 (그래프, 연결 요소 표시)
-
 use crate::Matrix;
 use std::collections::VecDeque;
 
@@ -91,7 +90,8 @@ pub fn print_equivalence_classes(matrix: &Matrix) {
         if !processed[i] {
             let class = get_equivalence_class(matrix, i);
 
-            let class_str = class.iter()
+            let class_str = class
+                .iter()
                 .map(|&x| (x + 1).to_string())
                 .collect::<Vec<String>>()
                 .join(", ");
@@ -121,7 +121,8 @@ pub fn demonstrate_equivalence_classes(matrix: &Matrix) {
     println!("\n각 원소의 동치류:");
     for i in 0..n {
         let class = get_equivalence_class(matrix, i);
-        let class_str = class.iter()
+        let class_str = class
+            .iter()
             .map(|&x| (x + 1).to_string())
             .collect::<Vec<String>>()
             .join(", ");
@@ -145,9 +146,22 @@ pub fn analyze_individual_properties(matrix: &Matrix) {
     println!("반사성 검증:");
     for i in 0..matrix.len() {
         let has_self = matrix[i][i] == 1;
-        println!("  R({}, {}) = {} {}", i + 1, i + 1, matrix[i][i], if has_self { "✓" } else { "✗" });
+        println!(
+            "  R({}, {}) = {} {}",
+            i + 1,
+            i + 1,
+            matrix[i][i],
+            if has_self { "✓" } else { "✗" }
+        );
     }
-    println!("결과: {}", if reflexive { "반사성 만족 ✓" } else { "반사성 불만족 ✗" });
+    println!(
+        "결과: {}",
+        if reflexive {
+            "반사성 만족 ✓"
+        } else {
+            "반사성 불만족 ✗"
+        }
+    );
 
     println!("\n대칭성 검증:");
     let mut symmetry_violations = Vec::new();
@@ -162,11 +176,25 @@ pub fn analyze_individual_properties(matrix: &Matrix) {
         println!("  모든 쌍이 대칭적입니다 ✓");
     } else {
         for (i, j) in symmetry_violations {
-            println!("  R({}, {}) = {} vs R({}, {}) = {}",
-                    i + 1, j + 1, matrix[i][j], j + 1, i + 1, matrix[j][i]);
+            println!(
+                "  R({}, {}) = {} vs R({}, {}) = {}",
+                i + 1,
+                j + 1,
+                matrix[i][j],
+                j + 1,
+                i + 1,
+                matrix[j][i]
+            );
         }
     }
-    println!("결과: {}", if symmetric { "대칭성 만족 ✓" } else { "대칭성 불만족 ✗" });
+    println!(
+        "결과: {}",
+        if symmetric {
+            "대칭성 만족 ✓"
+        } else {
+            "대칭성 불만족 ✗"
+        }
+    );
 
     println!("\n추이성 검증:");
     let mut transitivity_violations = Vec::new();
@@ -183,17 +211,35 @@ pub fn analyze_individual_properties(matrix: &Matrix) {
         println!("  추이성 위반사항이 없습니다 ✓");
     } else {
         for (i, j, k) in transitivity_violations {
-            println!("  R({}, {}) ∧ R({}, {}) = 1, 1이지만 R({}, {}) = {}",
-                    i + 1, j + 1, j + 1, k + 1, i + 1, k + 1, matrix[i][k]);
+            println!(
+                "  R({}, {}) ∧ R({}, {}) = 1, 1이지만 R({}, {}) = {}",
+                i + 1,
+                j + 1,
+                j + 1,
+                k + 1,
+                i + 1,
+                k + 1,
+                matrix[i][k]
+            );
         }
     }
-    println!("결과: {}", if transitive { "추이성 만족 ✓" } else { "추이성 불만족 ✗" });
+    println!(
+        "결과: {}",
+        if transitive {
+            "추이성 만족 ✓"
+        } else {
+            "추이성 불만족 ✗"
+        }
+    );
 
-    println!("\n통합 결과: {}", if equivalence {
-        "이 관계는 동치 관계입니다! ✓"
-    } else {
-        "이 관계는 동치 관계가 아닙니다 ✗"
-    });
+    println!(
+        "\n통합 결과: {}",
+        if equivalence {
+            "이 관계는 동치 관계입니다! ✓"
+        } else {
+            "이 관계는 동치 관계가 아닙니다 ✗"
+        }
+    );
 }
 
 /// 관계의 연결성과 추가 속성들을 종합적으로 분석하는 함수
@@ -208,14 +254,56 @@ pub fn analyze_relationship_properties(matrix: &Matrix) {
     let connected = super::equivalence::is_connected_relation(matrix);
 
     println!("기본 동치 관계 속성:");
-    println!("  반사성: {}", if reflexive { "✓ 만족" } else { "✗ 불만족" });
-    println!("  대칭성: {}", if symmetric { "✓ 만족" } else { "✗ 불만족" });
-    println!("  추이성: {}", if transitive { "✓ 만족" } else { "✗ 불만족" });
+    println!(
+        "  반사성: {}",
+        if reflexive {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
+    println!(
+        "  대칭성: {}",
+        if symmetric {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
+    println!(
+        "  추이성: {}",
+        if transitive {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
 
     println!("\n추가 관계 속성:");
-    println!("  반대칭성: {}", if antisymmetric { "✓ 만족" } else { "✗ 불만족" });
-    println!("  비반사성: {}", if irreflexive { "✓ 만족" } else { "✗ 불만족" });
-    println!("  연결성: {}", if connected { "✓ 만족" } else { "✗ 불만족" });
+    println!(
+        "  반대칭성: {}",
+        if antisymmetric {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
+    println!(
+        "  비반사성: {}",
+        if irreflexive {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
+    println!(
+        "  연결성: {}",
+        if connected {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
 
     println!("\n관계 분류:");
     if reflexive && symmetric && transitive {
@@ -233,7 +321,6 @@ pub fn analyze_relationship_properties(matrix: &Matrix) {
     if reflexive && antisymmetric && transitive && connected {
         println!("  ✓ 전순서 관계 (Total Order)");
     }
-
 }
 
 /// 텍스트 기반 시각화 총괄
@@ -241,5 +328,3 @@ pub fn print_text_visualization(matrix: &Matrix) {
     print_adjacency_lists(matrix);
     print_weakly_connected_components(matrix);
 }
-
-

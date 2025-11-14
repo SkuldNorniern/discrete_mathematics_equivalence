@@ -1,5 +1,4 @@
 /// 관계 행렬의 폐포(closure) 연산을 수행하는 모듈 (반사, 대칭, 추이 폐포)
-
 use crate::Matrix;
 
 /// 행렬을 복사하는 헬퍼 함수 - 동치 관계 판별시 원본 행렬 보존용
@@ -54,7 +53,6 @@ pub fn transitive_closure(matrix: &Matrix) -> Matrix {
     result
 }
 
-
 /// 폐포 종합 분석 - 세 가지 폐포(반사/대칭/추이)를 적용하고 그 효과를 분석하여 출력
 pub fn perform_closure_analysis(matrix: &Matrix) {
     println!("\n=== 폐포 분석 ===");
@@ -68,10 +66,12 @@ pub fn perform_closure_analysis(matrix: &Matrix) {
 
     // 반사 폐포
     println!("--- 반사 폐포 ---");
-    let reflexive_closed = reflexive_closure(matrix);
-    let changed_reflexive = reflexive_closed != *matrix;
+    if super::equivalence::is_reflexive(matrix) {
+        println!("반사성이 이미 만족되어 반사 폐포를 건너뜁니다.");
+    } else {
+        let reflexive_closed = reflexive_closure(matrix);
+        let changed_reflexive = reflexive_closed != *matrix;
 
-    if !super::equivalence::is_reflexive(matrix) || is_already_equivalence {
         super::visualize::print_matrix(matrix, "변환 전 행렬");
         super::visualize::print_matrix(&reflexive_closed, "반사 폐포 후 행렬");
 
@@ -87,10 +87,12 @@ pub fn perform_closure_analysis(matrix: &Matrix) {
 
     // 대칭 폐포
     println!("\n--- 대칭 폐포 ---");
-    let symmetric_closed = symmetric_closure(matrix);
-    let changed_symmetric = symmetric_closed != *matrix;
+    if super::equivalence::is_symmetric(matrix) {
+        println!("대칭성이 이미 만족되어 대칭 폐포를 건너뜁니다.");
+    } else {
+        let symmetric_closed = symmetric_closure(matrix);
+        let changed_symmetric = symmetric_closed != *matrix;
 
-    if !super::equivalence::is_symmetric(matrix) || is_already_equivalence {
         super::visualize::print_matrix(matrix, "변환 전 행렬");
         super::visualize::print_matrix(&symmetric_closed, "대칭 폐포 후 행렬");
 
@@ -106,10 +108,12 @@ pub fn perform_closure_analysis(matrix: &Matrix) {
 
     // 추이 폐포
     println!("\n--- 추이 폐포 ---");
-    let transitive_closed = transitive_closure(matrix);
-    let changed_transitive = transitive_closed != *matrix;
+    if super::equivalence::is_transitive(matrix) {
+        println!("추이성이 이미 만족되어 추이 폐포를 건너뜁니다.");
+    } else {
+        let transitive_closed = transitive_closure(matrix);
+        let changed_transitive = transitive_closed != *matrix;
 
-    if !super::equivalence::is_transitive(matrix) || is_already_equivalence {
         super::visualize::print_matrix(matrix, "변환 전 행렬");
         super::visualize::print_matrix(&transitive_closed, "추이 폐포 후 행렬");
 

@@ -1,5 +1,4 @@
 /// 동치 관계의 속성 판별 및 동치류 계산을 수행하는 모듈
-
 use crate::Matrix;
 
 /// 관계가 반사성(reflexive)을 만족하는지 판별하는 함수
@@ -96,11 +95,19 @@ pub fn print_additional_properties(matrix: &Matrix) {
     println!("\n=== 추가 속성 판별 ===");
     println!(
         "반대칭성 (Antisymmetric): {}",
-        if is_antisymmetric(matrix) { "만족" } else { "불만족" }
+        if is_antisymmetric(matrix) {
+            "만족"
+        } else {
+            "불만족"
+        }
     );
     println!(
         "비반사성 (Irreflexive): {}",
-        if is_irreflexive(matrix) { "만족" } else { "불만족" }
+        if is_irreflexive(matrix) {
+            "만족"
+        } else {
+            "불만족"
+        }
     );
 }
 
@@ -114,21 +121,44 @@ pub fn print_equivalence_result(matrix: &Matrix) {
     let transitive = is_transitive(matrix);
     let equivalence = is_equivalence_relation(matrix);
 
-    println!("반사성 (Reflexive): {}", if reflexive { "✓ 만족" } else { "✗ 불만족" });
-    println!("대칭성 (Symmetric): {}", if symmetric { "✓ 만족" } else { "✗ 불만족" });
-    println!("추이성 (Transitive): {}", if transitive { "✓ 만족" } else { "✗ 불만족" });
+    println!(
+        "반사성 (Reflexive): {}",
+        if reflexive {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
+    println!(
+        "대칭성 (Symmetric): {}",
+        if symmetric {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
+    println!(
+        "추이성 (Transitive): {}",
+        if transitive {
+            "✓ 만족"
+        } else {
+            "✗ 불만족"
+        }
+    );
 
     print_additional_properties(matrix);
 
-    println!("\n{}", if equivalence {
-        "이 관계는 동치 관계입니다!"
-    } else {
-        "이 관계는 동치 관계가 아닙니다."
-    });
+    println!(
+        "\n{}",
+        if equivalence {
+            "이 관계는 동치 관계입니다!"
+        } else {
+            "이 관계는 동치 관계가 아닙니다."
+        }
+    );
 
     // 동치 관계일 경우 동치류 출력
     if equivalence {
         super::visualize::print_equivalence_classes(matrix);
     }
 }
-

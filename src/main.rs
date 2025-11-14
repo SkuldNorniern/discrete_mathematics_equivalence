@@ -1,18 +1,15 @@
 /// 애플리케이션의 메인 진입점 및 사용자 인터페이스 모듈
-
 use std::io::{self, Write};
 
-use discrete_mathematics_equivalence::{
-    equivalence::{
-        print_equivalence_result
-    },
-    visualize::{
-        print_text_visualization, print_matrix,
-        analyze_individual_properties, demonstrate_equivalence_classes, analyze_relationship_properties
-    },
-    Matrix,
-};
 use discrete_mathematics_equivalence::closure::perform_closure_analysis;
+use discrete_mathematics_equivalence::{
+    Matrix,
+    equivalence::print_equivalence_result,
+    visualize::{
+        analyze_individual_properties, analyze_relationship_properties,
+        demonstrate_equivalence_classes, print_matrix, print_text_visualization,
+    },
+};
 
 /// 프로그램의 메인 함수
 /// 관계 행렬 입력, 동치 관계 판별, 시각화, 폐포 분석을 순차적으로 수행
@@ -79,7 +76,10 @@ fn read_relation_matrix() -> Result<Matrix, String> {
     };
 
     println!("\n{}×{} 관계행렬을 행 단위로 입력하세요.", size, size);
-    println!("각 행은 공백으로 구분된 {}개의 숫자(0 또는 1)를 입력하세요.\n", size);
+    println!(
+        "각 행은 공백으로 구분된 {}개의 숫자(0 또는 1)를 입력하세요.\n",
+        size
+    );
 
     let mut matrix = Vec::new();
 
@@ -97,7 +97,10 @@ fn read_relation_matrix() -> Result<Matrix, String> {
             match row {
                 Ok(row) => {
                     if row.len() != size {
-                        println!("오류: 각 행은 정확히 {}개의 요소를 가져야 합니다. 다시 입력하세요.", size);
+                        println!(
+                            "오류: 각 행은 정확히 {}개의 요소를 가져야 합니다. 다시 입력하세요.",
+                            size
+                        );
                         continue;
                     }
                     if row.iter().any(|&x| x != 0 && x != 1) {
@@ -116,4 +119,3 @@ fn read_relation_matrix() -> Result<Matrix, String> {
     }
     Ok(matrix)
 }
-
