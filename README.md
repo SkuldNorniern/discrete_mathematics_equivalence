@@ -1,4 +1,4 @@
-# Discrete Mathematics: Equivalence Relations Analyzerㅌㅈ
+# Discrete Mathematics: Equivalence Relations Analyzer
 
 이산수학 과제 - 동치 관계 분석기
 
