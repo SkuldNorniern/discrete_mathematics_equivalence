@@ -1,6 +1,10 @@
-pub type RelationMatrix = Vec<Vec<i32>>;
+/// 동치 관계의 속성 판별 및 동치류 계산을 수행하는 모듈
 
-pub fn is_reflexive(matrix: &RelationMatrix) -> bool {
+use crate::Matrix;
+
+/// 관계가 반사성(reflexive)을 만족하는지 판별하는 함수
+/// 모든 i에 대해 R(i,i) = 1인지 확인
+pub fn is_reflexive(matrix: &Matrix) -> bool {
     let n = matrix.len();
     for i in 0..n {
         if matrix[i][i] != 1 {
@@ -10,7 +14,9 @@ pub fn is_reflexive(matrix: &RelationMatrix) -> bool {
     true
 }
 
-pub fn is_symmetric(matrix: &RelationMatrix) -> bool {
+/// 관계가 대칭성(symmetric)을 만족하는지 판별하는 함수
+/// 모든 i,j에 대해 R(i,j) = R(j,i)인지 확인
+pub fn is_symmetric(matrix: &Matrix) -> bool {
     let n = matrix.len();
     for i in 0..n {
         for j in 0..n {
@@ -22,7 +28,9 @@ pub fn is_symmetric(matrix: &RelationMatrix) -> bool {
     true
 }
 
-pub fn is_transitive(matrix: &RelationMatrix) -> bool {
+/// 관계가 추이성(transitive)을 만족하는지 판별하는 함수
+/// R(i,j) ∧ R(j,k) → R(i,k) 조건이 모든 i,j,k에 대해 성립하는지 확인
+pub fn is_transitive(matrix: &Matrix) -> bool {
     let n = matrix.len();
     for i in 0..n {
         for j in 0..n {
@@ -52,9 +60,17 @@ pub fn print_equivalence_result(matrix: &RelationMatrix) {
     println!("대칭성 (Symmetric): {}", if symmetric { "✓ 만족" } else { "✗ 불만족" });
     println!("추이성 (Transitive): {}", if transitive { "✓ 만족" } else { "✗ 불만족" });
 
+    print_additional_properties(matrix);
+
     println!("\n{}", if equivalence {
         "이 관계는 동치 관계입니다!"
     } else {
         "이 관계는 동치 관계가 아닙니다."
     });
+
+    // 동치 관계일 경우 동치류 출력
+    if equivalence {
+        super::visualize::print_equivalence_classes(matrix);
+    }
 }
+
